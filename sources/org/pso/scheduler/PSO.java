@@ -5,14 +5,13 @@ import net.sourceforge.jswarm_pso.Swarm;
 public class PSO {
     private static SchedulerParticle particles[];
     private static SchedulerFitnessFunction ff = new SchedulerFitnessFunction();
-
+    private static Swarm swarm = new Swarm(Constants.POPULATION_SIZE, new SchedulerParticle(), ff);
     public PSO() {
         initParticles();
     }
 
 
     public double[] run() {
-        Swarm swarm = new Swarm(Constants.POPULATION_SIZE, new SchedulerParticle(), ff);
 
         swarm.setMinPosition(0);
         swarm.setMaxPosition(Constants.NO_OF_DATA_CENTERS - 1);
@@ -35,7 +34,11 @@ public class PSO {
         
         return swarm.getBestPosition();
     }
-  
+    
+    public void printBestFitness() {
+    	System.out.println("\nThe best fitness value: " + swarm.getBestFitness() + " Best makespan: " + ff.calcMakespan(swarm.getBestParticle().getBestPosition()));
+    }
+    
     public double[][] getCommunTimeMatrix() { return ff.getCoumnTimeMatrix(); }
     
     public double[][] getExecTimeMatrix() { return ff.getExecTimeMatrix(); }
